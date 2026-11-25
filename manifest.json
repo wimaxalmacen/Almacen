@@ -1,0 +1,16 @@
+{
+  "name": "QR-Wimax · Almacén",
+  "short_name": "QR-Wimax",
+  "description": "Gestión de inventarios con códigos QR — Importaciones Wimax E.I.R.L.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#111111",
+  "theme_color": "#111111",
+  "lang": "es",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
