@@ -151,67 +151,6 @@ table.t td.r,table.t th.r{text-align:right;font-variant-numeric:tabular-nums}
 .labprev .lab{background:#fff;border:1px dashed #bbb;border-radius:10px;padding:10px;text-align:center;font-size:12px}
 .labprev .lab svg{width:110px;height:110px}
 .labprev .lab b{display:block;font-size:13px}
-/* =================== ANIMACIONES =================== */
-:root{--rebote:cubic-bezier(.34,1.56,.64,1);--suave:cubic-bezier(.2,.8,.2,1)}
-@keyframes sube{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-@keyframes aparece{from{opacity:0}to{opacity:1}}
-@keyframes crece{from{transform:scaleY(0)}to{transform:scaleY(1)}}
-@keyframes dibuja{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
-@keyframes pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.12);opacity:1}100%{transform:scale(1)}}
-@keyframes sacude{0%,100%{transform:none}20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
-@keyframes latido{0%,100%{box-shadow:var(--sh)}50%{box-shadow:0 0 0 4px rgba(192,0,0,.18),var(--sh)}}
-@keyframes brillo{from{background-position:-200% 0}to{background-position:200% 0}}
-@keyframes linea{0%,100%{top:12%}50%{top:84%}}
-@keyframes flota{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-/* entrada de cada pantalla: tarjetas y filas una tras otra */
-#view.entra .pt{animation:sube .4s var(--suave) both}
-#view.entra .kpi,#view.entra .card,#view.entra .seg,#view.entra .chips,#view.entra>.wrap>input{animation:sube .5s var(--suave) both;animation-delay:calc(var(--i,0) * 70ms)}
-#view.entra .card .li{animation:sube .4s var(--suave) both;animation-delay:calc(var(--i,0) * 70ms + var(--j,0) * 35ms + 120ms)}
-#view.entra .chart rect.bar{transform-box:fill-box;transform-origin:50% 100%;animation:crece .8s var(--suave) both}
-#view.entra .chart text.val{animation:aparece .4s both}
-.chart polyline.dib{stroke-dasharray:1;animation:dibuja 1.1s var(--suave) both}
-/* tarjetas e interacción */
-.kpi,.card{transition:transform .2s var(--suave),box-shadow .2s}
-.kpi.lk:hover,.li:hover{background-color:#fafaf8}
-.kpi.lk:active{transform:scale(.97)}
-.kpi.alerta{animation:latido 2s ease-in-out infinite}
-.li{transition:background-color .15s,transform .15s}
-.li:active{transform:scale(.985)}
-.btn{transition:transform .12s var(--suave),filter .15s,background-color .2s}
-.btn:hover{filter:brightness(1.05)}
-.btn:active{transform:scale(.95)}
-.chip,.seg button{transition:background-color .2s,color .2s,box-shadow .2s,transform .12s}
-.chip:active,.seg button:active{transform:scale(.94)}
-.step button{transition:background-color .15s}.step button:active{background:var(--am2)}
-.num.bump{animation:pop .45s var(--rebote)}
-/* ventanas: suben desde abajo y se van con suavidad */
-.ov{animation:aparece .2s both}
-.md{animation:sube .32s var(--suave) both}
-@media (min-width:700px){.md{animation-name:pop;animation-duration:.35s}}
-.ov.sale{animation:aparece .18s reverse both}
-.ov.sale .md{animation:sube .18s reverse both}
-/* avisos */
-#toast{transform:translateX(-50%) translateY(20px) scale(.95);transition:opacity .2s,transform .35s var(--rebote)}
-#toast.v{transform:translateX(-50%) translateY(0) scale(1)}
-/* ingreso */
-.lbox{animation:sube .6s var(--suave) both}
-.lbox img{animation:pop .7s .15s var(--rebote) both,flota 4s 1s ease-in-out infinite}
-.lbox.sacude{animation:sacude .45s}
-/* escáner: línea que recorre la cámara y destello al leer */
-.rwrap{position:relative;max-width:440px;margin:0 auto}
-.rline{position:absolute;left:14%;right:14%;height:3px;border-radius:3px;background:var(--am);box-shadow:0 0 14px 3px rgba(251,195,5,.7);opacity:0;pointer-events:none;top:12%}
-.rwrap.on .rline{opacity:1;animation:linea 2.4s ease-in-out infinite}
-.rfx{position:absolute;inset:0;border-radius:14px;pointer-events:none;display:grid;place-items:center;font-size:84px;font-weight:900;color:#fff;opacity:0}
-.rfx.ok{background:rgba(46,125,50,.55);box-shadow:inset 0 0 0 6px var(--ok);animation:aparece .7s reverse both}
-.rfx.mal{background:rgba(192,0,0,.5);box-shadow:inset 0 0 0 6px var(--mal);animation:aparece .7s reverse both}
-.rfx span{animation:pop .45s var(--rebote) both}
-.scanmsg{transition:background-color .25s,color .25s}
-.scanmsg.pop{animation:pop .35s var(--rebote)}
-.scanmsg.e.pop{animation:sacude .4s}
-/* cargando */
-.skel{height:14px;border-radius:7px;margin:10px 0;background:linear-gradient(90deg,#eee 25%,#f7f7f5 50%,#eee 75%);background-size:200% 100%;animation:brillo 1.3s linear infinite}
-#confeti{position:fixed;inset:0;pointer-events:none;z-index:90}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
@@ -283,46 +222,6 @@ const ss_ = {get(k) { try { return JSON.parse(sessionStorage.getItem(k)); } catc
 function toast(t, tipo) { const el = $('#toast'); el.textContent = t; el.className = 'v ' + (tipo || ''); clearTimeout(toast.h); toast.h = setTimeout(() => el.className = '', tipo === 'e' ? 5000 : 3200); }
 function beep(f) { try { const c = new (window.AudioContext || window.webkitAudioContext)(), o = c.createOscillator(), g = c.createGain(); o.frequency.value = f; o.connect(g); g.connect(c.destination); g.gain.value = .15; o.start(); setTimeout(() => { o.stop(); c.close(); }, 140); } catch (e) {} }
 function vib(ms) { try { navigator.vibrate && navigator.vibrate(ms); } catch (e) {} }
-
-/* ---------- animaciones ---------- */
-const sinMov = () => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; } };
-function animarVista() {                       // solo al cambiar de pantalla, no en cada actualización automática
-  const v = $('#view'); v.classList.remove('entra'); void v.offsetWidth;
-  $$('#view .kpi, #view .card, #view .seg, #view .chips').forEach((el, i) => el.style.setProperty('--i', Math.min(i, 8)));
-  $$('#view .card').forEach(c => $$('.li', c).forEach((li, j) => li.style.setProperty('--j', Math.min(j, 10))));
-  v.classList.add('entra'); clearTimeout(animarVista.h); animarVista.h = setTimeout(() => v.classList.remove('entra'), 1600);
-  contar($$('#view .kpi .v'));
-}
-function contar(els) {                         // los números suben desde cero
-  if (sinMov()) return;
-  els.forEach(el => {
-    const m = el.textContent.match(/^(\D*?)([\d,]+(?:\.(\d+))?)(.*)$/); if (!m) return;
-    const fin = Number(m[2].replace(/,/g, '')), dec = m[3] ? m[3].length : 0; if (!fin) return;
-    const t0 = performance.now(), dur = 900, txt = el.textContent;
-    const paso = t => { const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
-      if (!el.isConnected) return;
-      el.textContent = k < 1 ? m[1] + (fin * e).toLocaleString('es-PE', {minimumFractionDigits: dec, maximumFractionDigits: dec}) + m[4] : txt;
-      if (k < 1) requestAnimationFrame(paso); };
-    requestAnimationFrame(paso);
-  });
-}
-function flashScan(ok) {
-  const fx = $('.rfx'), w = $('#rwrap'); if (!fx || !w || !w.classList.contains('on')) return;   // solo sobre la cámara encendida
-  fx.className = 'rfx'; void fx.offsetWidth; fx.className = 'rfx ' + (ok ? 'ok' : 'mal'); fx.innerHTML = '<span>' + (ok ? '✓' : '✕') + '</span>';
-}
-function bump(el) { if (!el) return; el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); }
-function confeti() {                           // celebración al entregar un pedido (sin librerías)
-  if (sinMov()) return;
-  const c = document.createElement('canvas'); c.id = 'confeti'; document.body.appendChild(c);
-  const x = c.getContext('2d'), W = c.width = innerWidth, H = c.height = innerHeight, col = ['#FBC305', '#111111', '#2E7D32', '#FFE07A', '#1F4E79'];
-  const ps = Array.from({length: 110}, () => ({x: W / 2, y: H * .55, vx: (Math.random() - .5) * 16, vy: -Math.random() * 15 - 5, r: Math.random() * 6 + 4, a: Math.random() * 6, va: (Math.random() - .5) * .4, c: col[Math.random() * col.length | 0]}));
-  const t0 = performance.now();
-  const paso = t => { x.clearRect(0, 0, W, H);
-    ps.forEach(p => { p.vy += .45; p.vx *= .99; p.x += p.vx; p.y += p.vy; p.a += p.va; x.save(); x.translate(p.x, p.y); x.rotate(p.a); x.fillStyle = p.c; x.fillRect(-p.r / 2, -p.r / 4, p.r, p.r / 2); x.restore(); });
-    if (t - t0 < 2200) requestAnimationFrame(paso); else c.remove(); };
-  requestAnimationFrame(paso);
-}
-const SKEL = '<div class="skel" style="width:90%"></div><div class="skel" style="width:70%"></div><div class="skel" style="width:80%"></div>';
 function cargarLib(urls, glob) {
   if (window[glob]) return Promise.resolve();
   return urls.reduce((p, u) => p.catch(() => new Promise((ok, no) => { const s = document.createElement('script'); s.src = u; s.onload = () => window[glob] ? ok() : no(); s.onerror = no; document.head.appendChild(s); })), Promise.reject())
@@ -363,10 +262,10 @@ async function api(action, extra) {
 async function cargar(silencio) {
   if (S.cargando) return; S.cargando = true; $('#brefresh svg').classList.add('spin');
   try {
-    const d = await api('datos'), primera = !S.productos.length;
+    const d = await api('datos');
     S.productos = d.productos || []; S.pedidos = d.pedidos || []; S.ahora = d.ahora; S.rol = d.rol || S.rol;
     ls.set('wimaxCache', {productos: S.productos, pedidos: S.pedidos, t: Date.now()});
-    render(); if (primera && S.productos.length) animarVista();
+    render();
     if (!silencio) toast('Datos actualizados', 'o');
   } catch (e) { if (!silencio) toast(e.message, 'e'); }
   finally { S.cargando = false; $('#brefresh svg').classList.remove('spin'); }
@@ -384,7 +283,7 @@ $('#flogin').addEventListener('submit', async ev => {
     const ses = {pin, usuario: nom, rol: r.rol};
     if ($('#lrec').checked) ls.set('wimaxSesion', ses); else ss_.set('wimaxSesion', ses);
     entrar();
-  } catch (e) { $('#lerr').textContent = e.message; S.pin = ''; const bx = $('#flogin'); bx.classList.remove('sacude'); void bx.offsetWidth; bx.classList.add('sacude'); vib([60, 40, 60]); }
+  } catch (e) { $('#lerr').textContent = e.message; S.pin = ''; }
   finally { $('#lbtn').disabled = false; $('#lbtn').textContent = 'Ingresar'; }
 });
 function entrar() {
@@ -433,10 +332,7 @@ function render() {
   if (S.vista === 'escanear' && $('#view').dataset.v === 'escanear') { renderLista(); return; }   // no reiniciar la cámara
   if (S.vista === 'inventario' && $('#view').dataset.v === 'inventario') { pintarInv(); return; }
   if (S.vista === 'pedido' && $('#view').dataset.v === 'pedido') { pintarCarrito(); return; }
-  const nueva = $('#view').dataset.v !== S.vista;
-  if (!nueva) $('#view').classList.remove('entra');      // las actualizaciones automáticas no repiten la animación
   $('#view').dataset.v = S.vista; f();
-  if (nueva) animarVista();
 }
 
 /* =================== INICIO =================== */
@@ -461,7 +357,7 @@ function vInicio() {
       '<div class="kpi lk az" onclick="irA(\'pedidos\')"><div class="v">' + activos.length + '</div><div class="l">Pedidos por atender</div></div>' +
       '<div class="kpi ok"><div class="v">' + entHoy.length + '</div><div class="l">Entregados hoy</div></div>' +
       '<div class="kpi ' + promCls + '"><div class="v">' + fmtMin(st.prom) + '</div><div class="l">Tiempo promedio de abastecimiento (meta ' + META + ' min)</div></div>' +
-      '<div class="kpi lk ' + (reponer.length ? 'mal alerta' : 'ok') + '" onclick="filtroInv.estado=\'REPONER\';irA(\'inventario\')"><div class="v">' + reponer.length + '</div><div class="l">Productos por reponer</div></div>' +
+      '<div class="kpi lk ' + (reponer.length ? 'mal' : 'ok') + '" onclick="filtroInv.estado=\'REPONER\';irA(\'inventario\')"><div class="v">' + reponer.length + '</div><div class="l">Productos por reponer</div></div>' +
     '</div>' +
     '<div class="two">' +
       '<div class="card"><h3>Tiempo de abastecimiento por tipo de pedido</h3><div class="chart" id="ch1"></div>' +
@@ -491,8 +387,8 @@ function dibBarras(sel, datos, compacto) {
     const x = L + i * bw + bw * .2, w = bw * .6;
     if (d.v != null) {
       const c = d.v <= META ? '#2E7D32' : (d.v <= BASE ? '#FBC305' : '#C00000');
-      s += '<rect class="bar" style="animation-delay:' + (i * 90 + 150) + 'ms" x="' + x + '" y="' + y(d.v) + '" width="' + w + '" height="' + (y(0) - y(d.v)) + '" rx="5" fill="' + c + '"/>' +
-           '<text class="val" style="animation-delay:' + (i * 90 + 700) + 'ms" x="' + (x + w / 2) + '" y="' + (y(d.v) - 5) + '" font-size="12.5" font-weight="700" text-anchor="middle" fill="#222" stroke="#fff" stroke-width="4" paint-order="stroke">' + (Math.round(d.v * 10) / 10) + '</text>';
+      s += '<rect x="' + x + '" y="' + y(d.v) + '" width="' + w + '" height="' + (y(0) - y(d.v)) + '" rx="5" fill="' + c + '"/>' +
+           '<text x="' + (x + w / 2) + '" y="' + (y(d.v) - 5) + '" font-size="12.5" font-weight="700" text-anchor="middle" fill="#222" stroke="#fff" stroke-width="4" paint-order="stroke">' + (Math.round(d.v * 10) / 10) + '</text>';
     } else s += '<text x="' + (x + w / 2) + '" y="' + (y(0) - 6) + '" font-size="11" text-anchor="middle" fill="#aaa">sin datos</text>';
     s += '<text x="' + (x + w / 2) + '" y="' + (H - B + 16) + '" font-size="12" text-anchor="middle" fill="#444">' + esc(d.l) + '</text>' +
          (compacto ? '' : '<text x="' + (x + w / 2) + '" y="' + (H - B + 30) + '" font-size="10.5" text-anchor="middle" fill="#999">' + d.n + ' ped.</text>');
@@ -546,14 +442,8 @@ function pintarInv() {
 }
 
 /* ---------- ficha del producto (modal) ---------- */
-let modalTok = 0;
-function abrirModal(html) { modalTok++; $('#modal').innerHTML = '<div class="ov" id="ov"><div class="md">' + html + '</div></div>'; $('#ov').onclick = e => { if (e.target.id === 'ov') cerrarModal(); }; document.body.style.overflow = 'hidden'; }
-function cerrarModal() {
-  const ov = $('#ov'), tok = ++modalTok;
-  if (ov && !sinMov()) { ov.id = ''; ov.classList.add('sale'); setTimeout(() => { if (tok === modalTok) $('#modal').innerHTML = ''; else ov.remove(); }, 180); }
-  else $('#modal').innerHTML = '';
-  document.body.style.overflow = ''; if (S.vista === 'escanear' && escCam.pausada) reanudarCam();
-}
+function abrirModal(html) { $('#modal').innerHTML = '<div class="ov" id="ov"><div class="md">' + html + '</div></div>'; $('#ov').onclick = e => { if (e.target.id === 'ov') cerrarModal(); }; document.body.style.overflow = 'hidden'; }
+function cerrarModal() { $('#modal').innerHTML = ''; document.body.style.overflow = ''; if (S.vista === 'escanear' && escCam.pausada) reanudarCam(); }
 const btnX = '<button class="ib" onclick="cerrarModal()" aria-label="Cerrar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>';
 function fichaProducto(code) {
   const p = P(code);
@@ -569,7 +459,7 @@ function fichaProducto(code) {
         '<button class="btn sm ok grow" id="bEnt">+ Entrada</button><button class="btn sm dark grow" id="bSal">− Salida</button></div>' +
         '<div class="row" style="margin-top:10px"><button class="btn sm sec grow" id="bPed">Agregar al pedido</button><button class="btn sm mal grow" id="bPer">Venta perdida</button></div>' +
         '<div class="muted sm" style="margin-top:8px">Las salidas de los pedidos se descuentan solas al marcar “Entregado”. Use “Salida” solo para otros casos (merma, traslado).</div></div>' +
-      '<div class="card"><h3>Kardex del producto</h3><div id="kx" class="muted">' + SKEL + '</div></div>' +
+      '<div class="card"><h3>Kardex del producto</h3><div id="kx" class="muted">Cargando movimientos...</div></div>' +
     '</div>');
   $('#bEnt').onclick = () => movimiento(p, 'Entrada');
   $('#bSal').onclick = () => movimiento(p, 'Salida');
@@ -607,7 +497,7 @@ function dibLinea(sel, vals, min) {
   $(sel).innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '"><line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(min) + '" y2="' + y(min) + '" stroke="#C00000" stroke-dasharray="5 4"/>' +
     '<text x="' + (L - 4) + '" y="' + (y(min) + 4) + '" font-size="10" text-anchor="end" fill="#C00000">mín</text>' +
     '<polygon points="' + L + ',' + y(0) + ' ' + pts + ' ' + x(vals.length - 1) + ',' + y(0) + '" fill="#FBC305" opacity=".25"/>' +
-    '<polyline class="dib" pathLength="1" points="' + pts + '" fill="none" stroke="#111" stroke-width="2"/><line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(0) + '" y2="' + y(0) + '" stroke="#ccc"/></svg>' +
+    '<polyline points="' + pts + '" fill="none" stroke="#111" stroke-width="2"/><line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(0) + '" y2="' + y(0) + '" stroke="#ccc"/></svg>' +
     '<div class="muted sm" style="margin:-2px 0 8px">Evolución del saldo · línea roja: stock mínimo</div>';
 }
 
@@ -686,7 +576,7 @@ function detallePedido(id) {
       (S.rol === 'supervisor' ? '<button class="btn blk mal" id="bCan" style="margin-top:10px">Cancelar pedido</button>' : '') : '') +
     '<div class="muted sm" style="margin-top:12px">Recibido: ' + (p.recibido ? fFecha(p.recibido) : '—') + ' · Entregado: ' + (p.entregado ? fFecha(p.entregado) : '—') + '</div></div>');
   $$('#modal input[type=checkbox]').forEach(c => c.onchange = () => { marcados[c.dataset.k] = c.checked; ls.set('wimaxAlist_' + id, marcados); });
-  const marcar = (acc, b) => async () => { b.disabled = true; try { const r = await api('marcarPedido', {id, accion: acc}); toast(r.mensaje, 'o'); if (acc === 'Entregado') { confeti(); beep(1046); } if (acc === 'Entregado') ls.del('wimaxAlist_' + id); cerrarModal(); S.rep = null; await cargar(true); } catch (e) { toast(e.message, 'e'); b.disabled = false; } };
+  const marcar = (acc, b) => async () => { b.disabled = true; try { const r = await api('marcarPedido', {id, accion: acc}); toast(r.mensaje, 'o'); if (acc === 'Entregado') ls.del('wimaxAlist_' + id); cerrarModal(); S.rep = null; await cargar(true); } catch (e) { toast(e.message, 'e'); b.disabled = false; } };
   if ($('#bRec')) $('#bRec').onclick = marcar('Recibido', $('#bRec'));
   if ($('#bEntg')) $('#bEntg').onclick = e => { const f = it.filter(x => !marcados[x.code]).length; confirmar(e.target, f ? 'Faltan ' + f + ' por marcar · tocar otra vez' : 'Tocar otra vez para confirmar', marcar('Entregado', e.target)); };
   if ($('#bCan')) $('#bCan').onclick = e => confirmar(e.target, 'Tocar otra vez para cancelar', marcar('Cancelado', e.target));
@@ -701,7 +591,7 @@ function vEscanear() {
   $('#view').innerHTML = '<h2 class="pt">Escanear QR</h2>' +
     '<div class="seg" id="emodo">' + [['Consultar', 'Consultar'], ['Conteo', 'Conteo físico'], ['Entrada', 'Entrada']].map(m => '<button data-m="' + m[0] + '" class="' + (escS.modo === m[0] ? 'on' : '') + '">' + m[1] + '</button>').join('') + '</div>' +
     '<div class="card">' +
-      '<div class="rwrap" id="rwrap"><div id="reader"></div><div class="rline"></div><div class="rfx"></div></div>' +
+      '<div id="reader"></div>' +
       '<div class="row" style="margin-top:12px"><button class="btn grow" id="bcam">📷 Abrir cámara</button><button class="btn sec" id="bfoto" title="Leer desde una foto">🖼️ Foto</button></div>' +
       '<div class="row" style="margin-top:10px" id="multw"><span class="grow sm">Unidades por escaneo<br><span class="muted">1 por unidad · ej. 30 si escanea una caja cerrada</span></span><div class="step"><button onclick="setMult(-1)">−</button><input id="emult" type="number" min="1" value="' + escS.mult + '"><button onclick="setMult(1)">+</button></div></div>' +
       '<div class="row" style="margin-top:10px"><input class="in grow" id="ecod" list="dlcod" placeholder="O escriba el código" style="text-transform:uppercase"><button class="btn sm dark" id="bcod">OK</button></div>' +
@@ -728,13 +618,13 @@ function ayudaModo() {
           Entrada: 'Escanee cada producto que llega del proveedor; se suma solo. Al terminar toque Guardar.'}[escS.modo];
 }
 function setMult(d) { escS.mult = Math.max(1, escS.mult + d); $('#emult').value = escS.mult; guardarEsc(); }
-function msgEsc(t, c) { const m = $('#emsg'); if (m) { m.innerHTML = t; m.className = 'scanmsg ' + (c || ''); if (c) { void m.offsetWidth; m.classList.add('pop'); } } }
+function msgEsc(t, c) { const m = $('#emsg'); if (m) { m.innerHTML = t; m.className = 'scanmsg ' + (c || ''); } }
 function leido(code) {
   const p = P(code);
-  if (!p) { beep(220); vib([60, 60, 60]); flashScan(false); msgEsc('Código no registrado: <b>' + esc(code) + '</b>', 'e'); return; }
-  beep(880); vib(70); flashScan(true);
+  if (!p) { beep(220); vib([60, 60, 60]); msgEsc('Código no registrado: <b>' + esc(code) + '</b>', 'e'); return; }
+  beep(880); vib(70);
   if (escS.modo === 'Consultar') { pausarCam(); fichaProducto(code); msgEsc('Leído: <b>' + esc(nomP(p)) + '</b>', 'o'); return; }
-  escS.items[code] = (escS.items[code] || 0) + escS.mult; guardarEsc(); renderLista(); bump($('#etot'));
+  escS.items[code] = (escS.items[code] || 0) + escS.mult; guardarEsc(); renderLista();
   msgEsc('<b>+' + escS.mult + '</b> ' + esc(nomP(p)) + ' · total: <b>' + escS.items[code] + '</b>', 'o');
 }
 function renderLista() {
@@ -777,7 +667,7 @@ async function iniciarCam() {
         if (escCam.pausada) return;
         if (c === escCam.last && now - escCam.lastT < 2200) return;     // evita sumar dos veces el mismo QR
         escCam.last = c; escCam.lastT = now; leido(c); }, () => {});
-    escCam.activa = true; b.textContent = '⏹ Detener cámara'; b.classList.add('dark'); if ($('#rwrap')) $('#rwrap').classList.add('on');
+    escCam.activa = true; b.textContent = '⏹ Detener cámara'; b.classList.add('dark');
   } catch (e) {
     escCam.activa = false; b.textContent = '📷 Abrir cámara';
     msgEsc('No se pudo abrir la cámara (' + esc(e && e.message ? e.message : e) + '). Dé permiso de cámara al navegador o use el botón Foto.', 'e');
@@ -788,7 +678,7 @@ function pausarCam() { if (escCam.activa && escCam.qr) { try { escCam.qr.pause(t
 function reanudarCam() { if (escCam.qr && escCam.pausada) { try { escCam.qr.resume(); } catch (e) {} escCam.pausada = false; escCam.last = ''; } }
 function detenerCam() {
   if (escCam.qr && escCam.activa) { escCam.qr.stop().catch(() => {}); }
-  escCam.activa = false; escCam.pausada = false; if ($('#rwrap')) $('#rwrap').classList.remove('on');
+  escCam.activa = false; escCam.pausada = false;
   const b = $('#bcam'); if (b) { b.textContent = '📷 Abrir cámara'; b.classList.remove('dark'); }
 }
 $('#fotoin').onchange = async e => {
@@ -806,7 +696,7 @@ $('#fotoin').onchange = async e => {
 /* =================== REPORTES (supervisor) =================== */
 const filRep = {desde: '', hasta: '', tab: 'pedidos', q: '', sec: 'indicadores'};
 const PAR = Object.assign({dias: 30, lead: 15, seg: 7, diasABC: 90, sinMov: 60}, ls.get('wimaxParam', {}));
-const BASE_EXACT = 83.33, META_EXACT = 95, COSTO_H = 6.25, INVERSION = 815.59, BASE_PERD = 56;
+const BASE_EXACT = 83.33, META_EXACT = 95, COSTO_H = 6.25, INVERSION = 1454.78, COSTO_OP = 73.75, BASE_PERD = 56;
 async function vReportes() {
   if (!filRep.desde) { const d = new Date(); filRep.hasta = diaKey(d); d.setDate(d.getDate() - 29); filRep.desde = diaKey(d); }
   const secs = [['indicadores', 'Indicadores'], ['reposicion', 'Reposición'], ['abc', 'ABC'], ['sinmov', 'Sin movimiento'], ['registros', 'Registros']];
@@ -815,7 +705,7 @@ async function vReportes() {
     '<div class="card" id="rfechas"><div class="row"><div class="grow"><label class="f" style="margin-top:0">Desde</label><input class="in" type="date" id="rd" value="' + filRep.desde + '"></div>' +
     '<div class="grow"><label class="f" style="margin-top:0">Hasta</label><input class="in" type="date" id="rh" value="' + filRep.hasta + '"></div></div>' +
     '<div class="chips">' + [[7, '7 días'], [30, '30 días'], [90, '90 días'], [0, 'Todo']].map(x => '<button class="chip" data-d="' + x[0] + '">' + x[1] + '</button>').join('') + '</div></div>' +
-    '<div id="rcont"><div class="card">' + SKEL + SKEL + '</div></div>';
+    '<div id="rcont"><div class="card empty">Cargando reportes...</div></div>';
   $$('#rsec .chip').forEach(b => b.onclick = () => { filRep.sec = b.dataset.s; $$('#rsec .chip').forEach(x => x.classList.toggle('on', x === b)); pintarSec(); });
   $('#rd').onchange = e => { filRep.desde = e.target.value; pintarSec(); };
   $('#rh').onchange = e => { filRep.hasta = e.target.value; pintarSec(); };
@@ -860,7 +750,7 @@ function pintarIndicadores() {
   const dias = Math.max(1, Math.round((new Date(filRep.hasta) - new Date(filRep.desde < '2001' ? (R.pedidos.length ? R.pedidos[R.pedidos.length - 1].fecha : filRep.hasta) : filRep.desde)) / 86400000) + 1);
   const perMes = per.length / dias * 30, valPer = per.reduce((s, x) => s + x.valor, 0);
   const horas = st.prom == null ? 0 : Math.max(0, (BASE - st.prom) * st.ent.length / 60), ahorro = horas * COSTO_H;
-  const ahorroMes = ahorro / dias * 30, recup = ahorroMes > 0 ? INVERSION / ahorroMes : null;
+  const ahorroMes = ahorro / dias * 30, recup = ahorroMes > COSTO_OP ? INVERSION / (ahorroMes - COSTO_OP) : null;
   // tendencia semanal (últimas 8 semanas)
   const sem = []; for (let i = 7; i >= 0; i--) { const fin = new Date(); fin.setHours(23, 59, 59); fin.setDate(fin.getDate() - i * 7); const ini = new Date(fin); ini.setDate(ini.getDate() - 6); ini.setHours(0, 0, 0);
     const a = R.pedidos.filter(p => p.estado === 'Entregado' && p.minutos != null && p.entregado && new Date(p.entregado) >= ini && new Date(p.entregado) <= fin);
@@ -870,7 +760,7 @@ function pintarIndicadores() {
       '<div class="kpi ' + (st.prom != null && st.prom <= META ? 'ok' : 'mal') + '"><div class="v">' + fmtMin(st.prom) + '</div><div class="l">Tiempo promedio de abastecimiento</div></div>' +
       '<div class="kpi ok"><div class="v">' + (Math.round(horas * 10) / 10).toLocaleString('es-PE') + ' h</div><div class="l">Horas de almacén liberadas en el periodo</div></div>' +
       '<div class="kpi ok"><div class="v">' + fmtS(ahorro) + '</div><div class="l">Ahorro estimado (S/ ' + COSTO_H + ' por hora)</div></div>' +
-      '<div class="kpi az"><div class="v">' + (recup == null ? '—' : (Math.round(recup * 10) / 10).toLocaleString('es-PE') + ' meses') + '</div><div class="l">Recuperación de la inversión (S/ ' + INVERSION + ')</div></div>' +
+      '<div class="kpi az"><div class="v">' + (recup == null ? '—' : (Math.round(recup * 10) / 10).toLocaleString('es-PE') + ' meses') + '</div><div class="l">Recuperación de la inversión (S/ ' + INVERSION.toLocaleString('es-PE') + ', menos S/ ' + COSTO_OP + ' de operación al mes)</div></div>' +
     '</div>' +
     '<div class="two">' +
       tarjetaInd('Tiempo de abastecimiento', st.prom, BASE, META, true, fmtMin, st.ent.length + ' pedidos entregados en el periodo · ' + (st.prom == null ? '' : (st.prom <= BASE ? 'reducción de ' : 'aumento de ') + Math.abs(Math.round((BASE - st.prom) / BASE * 1000) / 10) + ' % frente a la línea base')) +
